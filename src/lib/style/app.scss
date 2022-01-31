@@ -105,6 +105,13 @@ text {
 	}
 }
 
+circle {
+	@include themify($themes) {
+		stroke: themed('textColor');
+		transition: stroke 200ms $bouncy-cubic;
+	}
+}
+
 body {
 	font-family: 'Oxygen', sans-serif;
 	height: 100%;
