@@ -66,7 +66,9 @@
 			.style('text-anchor', 'middle')
 			.text('acceptable quality');
 
-		const data = await d3.csv('src/assets/wbcm.csv');
+		const data = await d3.csv(
+			'https://raw.githubusercontent.com/NeonSpork/weight-based-contrast/main/src/assets/wbcm.csv'
+		);
 
 		const lowQuality = d3.scaleOrdinal().domain(['1', '0']).range(['#f5eb26', '#a52499']);
 
