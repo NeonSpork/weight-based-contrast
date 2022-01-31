@@ -1,0 +1,164 @@
+@use 'definitions' as *;
+@use 'themes' as *;
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Oxygen:wght@300;400;700&display=swap');
+
+$theme-map: null;
+@mixin themify($themes: $themes) {
+	@each $theme, $map in $themes {
+		.theme-#{$theme} & {
+			$theme-map: () !global;
+			@each $key, $submap in $map {
+				$value: map-get(map-get($themes, $theme), '#{$key}');
+				$theme-map: map-merge(
+					$theme-map,
+					(
+						$key: $value
+					)
+				) !global;
+			}
+
+			@content;
+			$theme-map: null !global;
+		}
+	}
+}
+
+@function themed($key) {
+	@return map-get($theme-map, $key);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-family: 'Montserrat', sans-serif;
+	@include themify($themes) {
+		color: themed('primaryAccentColor');
+		transition: color 200ms $bouncy-cubic;
+	}
+}
+
+.menu_icon {
+	@include themify($themes) {
+		color: themed('primaryAccentColor');
+		// transform: rotateY(themed('iconSkew'));
+		// transition: transform 600ms $front-cubic, color 400ms $late-cubic;
+		transition: color 200ms $late-cubic;
+	}
+}
+
+.auth {
+	@include themify($themes) {
+		color: themed('menuTextColor');
+		transition: color 200ms $bouncy-cubic;
+	}
+}
+.auth-icon {
+	@include themify($themes) {
+		color: themed('primaryAccentColor');
+		transition: color 200ms $bouncy-cubic;
+	}
+}
+.field-icon {
+	@include themify($themes) {
+		color: themed('secondaryAccentColor');
+		transition: color 200ms $bouncy-cubic;
+	}
+}
+
+.menu-container {
+	@include themify($themes) {
+		opacity: 0.93;
+		color: themed('menuTextColor');
+		background-image: themed('menuGradientColor');
+		transition: background-image 200ms $bouncy-cubic, color 200ms $bouncy-cubic;
+	}
+}
+
+.border {
+	@include themify($themes) {
+		box-shadow: inset 0px 0px 20px -10px themed('glowShadowColor');
+		transition: box-shadow 200ms $bouncy-cubic;
+	}
+}
+
+.card {
+	@include themify($themes) {
+		background-color: themed('cardBackgroundColor');
+		box-shadow: 0px 0px 10px -3px themed('glowShadowColor');
+		transition: background-color 200ms $bouncy-cubic, box-shadow 200ms $bouncy-cubic;
+	}
+}
+
+.card-title {
+	@include themify($themes) {
+		color: themed('primaryAccentColor');
+		transition: color 200ms $bouncy-cubic;
+	}
+}
+
+text {
+	@include themify($themes) {
+		fill: themed('textColor');
+	}
+}
+
+body {
+	font-family: 'Oxygen', sans-serif;
+	height: 100%;
+	margin: 0;
+	@include themify($themes) {
+		background-color: themed('cardBackgroundColor');
+		color: themed('textColor');
+		transition: color 200ms $bouncy-cubic, background-color 200ms $bouncy-cubic;
+	}
+}
+
+* {
+	// firefox
+	scrollbar-width: 5px;
+	scrollbar-color: $tropical-gradient none;
+}
+
+// chrome, edge, safari
+*::-webkit-scrollbar {
+	width: 5px;
+	height: 5px;
+}
+
+*::-webkit-scrollbar-track {
+	background: none;
+}
+
+*::-webkit-scrollbar-thumb {
+	border-radius: 0.375rem;
+	background: $tropical-gradient;
+}
+
+html {
+	@include themify($themes) {
+		background-color: themed('cardBackgroundColor');
+		color: themed('textColor');
+		transition: color 200ms $bouncy-cubic, background-color 200ms $bouncy-cubic;
+	}
+}
+
+input,
+textarea {
+	font-family: 'Oxygen', sans-serif;
+	@include themify($themes) {
+		border: solid 0.125rem themed('primaryAccentColor');
+		border-radius: 0.375rem;
+		background-color: themed('backgroundColor');
+		color: themed('textColor');
+		transition: color 200ms $bouncy-cubic, background-color 200ms $bouncy-cubic;
+	}
+}
+input:focus,
+textarea:focus {
+	@include themify($themes) {
+		border: solid 0.125rem themed('secondaryAccentColor');
+	}
+}

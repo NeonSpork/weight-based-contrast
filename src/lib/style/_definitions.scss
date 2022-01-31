@@ -1,0 +1,79 @@
+//transition timings
+$soft-cubic: cubic-bezier(1, 0, 0.67, 1);
+$bouncy-cubic: cubic-bezier(1, 0, 0.8, 1.5);
+$front-cubic: cubic-bezier(0.4, 0, 0, 1.75);
+$late-cubic: cubic-bezier(1, 0, 1, 0);
+$early-cubic: cubic-bezier(0, 1, 0, 1);
+//screen size definitions
+$sm-screen: 640px;
+$md-screen: 768px;
+$lg-screen: 1024px;
+$xl-screen: 1280px;
+$xxl-screen: 1536px;
+// color definitions
+$tropical-gradient: linear-gradient(
+  50deg,
+  hsl(301deg, 95%, 37%),
+  hsl(330deg, 91%, 47%),
+  hsl(27deg, 92%, 53%)
+);
+$ghost-white-50: #ffffff;
+$ghost-white-100: #ffffff;
+$ghost-white-200: #ffffff;
+$ghost-white-300: #ffffff;
+$ghost-white-400: #ffffff;
+$ghost-white-500: #f7f7ff;
+$ghost-white-600: #ededf5;
+$ghost-white-700: #e3e3eb;
+$ghost-white-800: #d9d9e1;
+$ghost-white-900: #cfcfd7;
+$gunmetal-grey-50: #525e6b;
+$gunmetal-grey-100: #485461;
+$gunmetal-grey-200: #3e4a57;
+$gunmetal-grey-300: #34404d;
+$gunmetal-grey-400: #2a3643;
+$gunmetal-grey-500: #202c39;
+$gunmetal-grey-600: #16222f;
+$gunmetal-grey-700: #0c1825;
+$gunmetal-grey-800: #020e1b;
+$gunmetal-grey-900: #000411;
+$phthalo-blue-50: #5c3fbc;
+$phthalo-blue-100: #5235b2;
+$phthalo-blue-200: #482ba8;
+$phthalo-blue-300: #3e219e;
+$phthalo-blue-400: #341794;
+$phthalo-blue-500: #2a0d8a;
+$phthalo-blue-600: #200380;
+$phthalo-blue-700: #160076;
+$phthalo-blue-800: #0c006c;
+$phthalo-blue-900: #020062;
+$paradise-pink-50: #ff79a1;
+$paradise-pink-100: #ff6f97;
+$paradise-pink-200: #ff658d;
+$paradise-pink-300: #ff5b83;
+$paradise-pink-400: #f95179;
+$paradise-pink-500: #ef476f;
+$paradise-pink-600: #e53d65;
+$paradise-pink-700: #db335b;
+$paradise-pink-800: #d12951;
+$paradise-pink-900: #c71f47;
+$caribbean-green-50: #38ffd2;
+$caribbean-green-100: #2efec8;
+$caribbean-green-200: #24f4be;
+$caribbean-green-300: #1aeab4;
+$caribbean-green-400: #10e0aa;
+$caribbean-green-500: #06d6a0;
+$caribbean-green-600: #00cc96;
+$caribbean-green-700: #00c28c;
+$caribbean-green-800: #00b882;
+$caribbean-green-900: #00ae78;
+$blue-ncs-50: #43bce4;
+$blue-ncs-100: #39b2da;
+$blue-ncs-200: #2fa8d0;
+$blue-ncs-300: #259ec6;
+$blue-ncs-400: #1b94bc;
+$blue-ncs-500: #118ab2;
+$blue-ncs-600: #0780a8;
+$blue-ncs-700: #00769e;
+$blue-ncs-800: #006c94;
+$blue-ncs-900: #00628a;

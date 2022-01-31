@@ -1,0 +1,42 @@
+@use 'definitions' as *;
+
+$themes: (
+	light: (
+		backgroundColor: $ghost-white-600,
+		cardBackgroundColor: $ghost-white-500,
+		textColor: $gunmetal-grey-500,
+		menuTextColor: $ghost-white-500,
+		menuGradientColor:
+			linear-gradient(
+				to bottom left,
+				hsl(301deg, 95%, 37%),
+				hsl(330deg, 91%, 47%),
+				hsl(27deg, 92%, 53%)
+			),
+		primaryAccentColor: $phthalo-blue-500,
+		secondaryAccentColor: $caribbean-green-500,
+		borderColor: $phthalo-blue-500,
+		shadowColor: $gunmetal-grey-50,
+		glowShadowColor: $phthalo-blue-500,
+		iconSkew: 180deg
+	),
+	dark: (
+		backgroundColor: $gunmetal-grey-600,
+		cardBackgroundColor: $gunmetal-grey-500,
+		textColor: $ghost-white-500,
+		menuTextColor: $ghost-white-500,
+		menuGradientColor:
+			linear-gradient(
+				to bottom left,
+				hsl(301deg, 95%, 22%),
+				hsl(330deg, 91%, 32%),
+				hsl(27deg, 92%, 38%)
+			),
+		primaryAccentColor: $caribbean-green-500,
+		secondaryAccentColor: $paradise-pink-500,
+		borderColor: $caribbean-green-500,
+		shadowColor: $gunmetal-grey-700,
+		glowShadowColor: $caribbean-green-500,
+		iconSkew: 0deg
+	)
+);
