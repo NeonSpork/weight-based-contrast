@@ -60,10 +60,7 @@
 				const max = d3.max(arr) * 1.1;
 				return d3.scaleLinear().domain([min, max]).range([0, length]);
 			} else {
-				return d3
-					.scaleOrdinal()
-					.domain(arr)
-					.range([length * 0.1, length * 0.9]);
+				return d3.scaleOrdinal().domain(arr).range([0, length]);
 			}
 		}
 
@@ -157,12 +154,16 @@
 		);
 		total = data.length;
 		await scatterPlot(data);
+		window.addEventListener('resize', async () => {
+			d3.selectAll('svg').remove();
+			await scatterPlot(data);
+		});
 	});
 </script>
 
 <div>
-	<label for="xAxis">X axis</label><select
-		bind:value={xAxis}
+	<label for="yAxis">Y axis</label><select
+		bind:value={yAxis}
 		on:change={async () => {
 			d3.selectAll('svg').remove();
 			scatterPlot(
@@ -176,8 +177,8 @@
 			<option value={label}>{label}</option>
 		{/each}
 	</select>
-	<label for="yAxis">Y axis</label><select
-		bind:value={yAxis}
+	<label for="xAxis">X axis</label><select
+		bind:value={xAxis}
 		on:change={async () => {
 			d3.selectAll('svg').remove();
 			scatterPlot(
