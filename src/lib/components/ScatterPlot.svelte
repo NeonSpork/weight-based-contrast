@@ -60,7 +60,7 @@
 				const max = d3.max(arr) * 1.1;
 				return d3.scaleLinear().domain([min, max]).range([0, length]);
 			} else {
-				return d3.scaleOrdinal().domain(arr).range([0, length]);
+				return d3.scaleBand().domain(arr).range([0, length]);
 			}
 		}
 
@@ -140,6 +140,7 @@
 				return x(d[xAxis]);
 			})
 			.attr('cy', (d: PatientType) => {
+				// console.log(`x: ${d[xAxis]} y: ${d[yAxis]}`);
 				return y(d[yAxis]);
 			})
 			.attr('r', 3)
