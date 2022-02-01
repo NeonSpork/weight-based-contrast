@@ -1,151 +1,196 @@
 <script lang="ts">
 	import * as d3 from 'd3';
+	import type { PatientType } from '$lib/types/Patient';
 	import { onMount } from 'svelte';
 
-	async function scatterPlot(data) {
-		const margin = { top: 20, right: 20, bottom: 50, left: 70 };
-		let width = window.innerWidth * 0.75 - margin.left - margin.right;
-		let height = window.innerWidth * 0.375 - margin.top - margin.bottom;
+	let labels = [
+		'age',
+		'aorta',
+		'ave_pulse',
+		'betablocker',
+		'bmi',
+		'bsa',
+		'cm_per_kg',
+		'gender',
+		'height',
+		'low_quality',
+		'nitro',
+		'patient',
+		'weight'
+	];
+	let descriptiveLabel = {
+		age: 'Age in years',
+		aorta: 'Attenuation in aorta',
+		ave_pulse: 'Average pulse',
+		betablocker: 'Beta-blockers administered',
+		bmi: 'Body Mass Index',
+		bsa: 'Body Surface Area',
+		cm_per_kg: 'Ml contrast medium per kg bodyweight',
+		gender: 'Biological gender',
+		height: 'Height in cm',
+		low_quality: 'Quality of examination',
+		nitro: 'Sublingual nitroglycerine administered',
+		patient: 'Unique anonymous identifier',
+		weight: 'Weight in kg'
+	};
 
-		let svg = d3
+	$: xAxis = 'aorta';
+	$: yAxis = 'bsa';
+	$: total = 0;
+
+	async function scatterPlot(data: Array<PatientType>) {
+		let xArray = [];
+		let yArray = [];
+
+		function populateArray(label: string): Array<any> {
+			let array = [];
+			data.forEach((d: PatientType) => {
+				if (Number.isNaN(parseFloat(d[label]))) {
+					array.push(d[label]);
+				} else {
+					array.push(parseFloat(d[label]));
+				}
+			});
+			return array;
+		}
+
+		function limitAxis(arr: Array<any>, length: number) {
+			if (!Number.isNaN(parseFloat(arr[0]))) {
+				const min = d3.min(arr) * 0.9;
+				const max = d3.max(arr) * 1.1;
+				return d3.scaleLinear().domain([min, max]).range([0, length]);
+			} else {
+				return d3
+					.scaleOrdinal()
+					.domain(arr)
+					.range([length * 0.1, length * 0.9]);
+			}
+		}
+
+		const margin = { top: 50, right: 50, bottom: 50, left: 70 };
+		let width = window.innerWidth * 0.75 - margin.left - margin.right;
+		let height = window.innerWidth * 0.3 - margin.top - margin.bottom;
+
+		let scatterOuter = d3
 			.select('#scatter')
 			.append('svg')
 			.attr('width', width + margin.left + margin.right)
-			.attr('height', height + margin.top + margin.bottom)
+			.attr('height', height + margin.top + margin.bottom * 2)
 			.append('g')
 			.attr('transform', `translate(${margin.left}, ${margin.top})`);
-		let x = d3.scaleLinear().domain([175, 800]).range([0, width]);
-		svg.append('g').attr('transform', `translate(0, ${height})`).call(d3.axisBottom(x));
-		let y = d3.scaleLinear().domain([13, 45]).range([height, 0]);
-		svg.append('g').call(d3.axisLeft(y));
 
-		svg
+		let scatterInner = scatterOuter.append('g');
+
+		let x = limitAxis(populateArray(xAxis), width);
+
+		scatterInner.append('g').attr('transform', `translate(0, ${height})`).call(d3.axisBottom(x));
+		let y = limitAxis(populateArray(yAxis), height);
+		scatterInner.append('g').call(d3.axisLeft(y));
+
+		scatterInner
 			.append('text')
-			.attr('transform', `translate(${width / 2}, ${height + margin.top})`)
+			.attr('transform', `translate(${width / 2}, ${height + margin.bottom})`)
 			.attr('dy', '1em')
 			.style('text-anchor', 'middle')
-			.text('Attentuation in aorta');
+			.text(descriptiveLabel[xAxis]);
 
-		svg
+		scatterInner
 			.append('text')
 			.attr('transform', `rotate(-90)`)
 			.attr('y', 0 - margin.left)
 			.attr('x', 0 - height / 2)
 			.attr('dy', '1em')
 			.style('text-anchor', 'middle')
-			.text('BMI');
+			.text(descriptiveLabel[yAxis]);
 
-		svg
+		scatterInner
 			.append('g')
 			.append('circle')
 			.attr('cx', margin.left / 2)
-			.attr('cy', height - margin.bottom)
+			.attr('cy', 10 - margin.top)
 			.attr('r', 5)
 			.style('fill', '#f5eb26');
-		svg
+		scatterInner
 			.append('text')
-			.attr('transform', `translate(${margin.left * 1.6}, ${height - margin.bottom - 10})`)
+			.attr('transform', `translate(${margin.left * 1.6}, ${0 - margin.top})`)
 			.attr('dy', '1em')
 			.style('text-anchor', 'middle')
 			.text('suboptimal quality');
 
-		svg
+		scatterInner
 			.append('g')
 			.append('circle')
 			.attr('cx', margin.left / 2)
-			.attr('cy', height - margin.bottom + 20)
+			.attr('cy', 25 - margin.top)
 			.attr('r', 5)
 			.style('fill', '#a52499');
-		svg
+		scatterInner
 			.append('text')
-			.attr('transform', `translate(${margin.left * 1.6}, ${height - margin.bottom + 10})`)
+			.attr('transform', `translate(${margin.left * 1.6}, ${15 - margin.top})`)
 			.attr('dy', '1em')
 			.style('text-anchor', 'middle')
 			.text('acceptable quality');
 
 		const lowQuality = d3.scaleOrdinal().domain(['1', '0']).range(['#f5eb26', '#561fa4']);
 
-		svg
+		scatterInner
 			.append('g')
 			.selectAll('dot')
 			.data(data)
 			.enter()
 			.append('circle')
-			.attr('cx', (d) => {
-				return x(d.aorta);
+			.attr('cx', (d: PatientType) => {
+				return x(d[xAxis]);
 			})
-			.attr('cy', (d) => {
-				return y(d.bmi);
+			.attr('cy', (d: PatientType) => {
+				return y(d[yAxis]);
 			})
 			.attr('r', 3)
-			.style('fill', (d) => {
+			.style('fill', (d: PatientType) => {
 				return lowQuality(d.low_quality);
-			});
-	}
-	async function sunburstPlot(data) {
-		const margin = { top: 20, right: 20, bottom: 50, left: 70 };
-		let width = window.innerWidth * 0.75 - margin.left - margin.right;
-		let height = window.innerWidth * 0.375 - margin.top - margin.bottom;
-		let radius = Math.min(width, height) / 2;
-		let color = d3.scaleOrdinal(d3.schemeCategory10);
-
-		// Create primary <g> element
-		let svg = d3
-			.select('#sunburst')
-			.attr('width', width)
-			.attr('height', height)
-			.append('g')
-			.attr('transform', 'translate(' + width / 2 + ',' + height / 2 + ')');
-
-		// Data strucure
-		let partition = d3.partition().size([2 * Math.PI, radius]);
-
-		// Find data root
-		let root = d3.hierarchy(data).sum((d) => {
-			return d.size;
-		});
-
-		// Size arcs
-		partition(root);
-		let arc = d3
-			.arc()
-			.startAngle((d) => {
-				return d.x0;
-			})
-			.endAngle((d) => {
-				return d.x1;
-			})
-			.innerRadius((d) => {
-				return d.y0;
-			})
-			.outerRadius((d) => {
-				return d.y1;
-			});
-
-		// Put it all together
-		svg
-			.selectAll('path')
-			.data(root.descendants())
-			.enter()
-			.append('path')
-			.attr('display', (d) => {
-				return d.depth ? null : 'none';
-			})
-			.attr('d', arc)
-			.style('stroke', '#fff')
-			.style('fill', (d) => {
-				return color((d.children ? d : d.parent).data.name);
 			});
 	}
 
 	onMount(async () => {
-		const data = await d3.csv(
+		const data: Array<PatientType> = await d3.csv(
 			'https://raw.githubusercontent.com/NeonSpork/weight-based-contrast/main/src/assets/wbcm.csv'
 		);
+		total = data.length;
 		await scatterPlot(data);
-		await sunburstPlot(data);
 	});
 </script>
 
+<div>
+	<label for="xAxis">X axis</label><select
+		bind:value={xAxis}
+		on:change={async () => {
+			d3.selectAll('svg').remove();
+			scatterPlot(
+				await d3.csv(
+					'https://raw.githubusercontent.com/NeonSpork/weight-based-contrast/main/src/assets/wbcm.csv'
+				)
+			);
+		}}
+	>
+		{#each labels as label}
+			<option value={label}>{label}</option>
+		{/each}
+	</select>
+	<label for="yAxis">Y axis</label><select
+		bind:value={yAxis}
+		on:change={async () => {
+			d3.selectAll('svg').remove();
+			scatterPlot(
+				await d3.csv(
+					'https://raw.githubusercontent.com/NeonSpork/weight-based-contrast/main/src/assets/wbcm.csv'
+				)
+			);
+		}}
+	>
+		{#each labels as label}
+			<option value={label}>{label}</option>
+		{/each}
+	</select>
+</div>
+<p>Total number of participants - {total}</p>
 <div id="scatter" />
-<div id="sunburst" />
