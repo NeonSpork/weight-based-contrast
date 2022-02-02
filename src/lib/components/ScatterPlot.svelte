@@ -54,19 +54,21 @@
 			return array;
 		}
 
-		function limitAxis(arr: Array<any>, length: number) {
+		function limitAxis(arr: Array<any>, coords: Array<number>) {
 			if (!Number.isNaN(parseFloat(arr[0]))) {
 				const min = d3.min(arr) * 0.9;
 				const max = d3.max(arr) * 1.1;
-				return d3.scaleLinear().domain([min, max]).range([0, length]);
+				return d3.scaleLinear().domain([min, max]).range(coords);
 			} else {
-				return d3.scaleBand().domain(arr).range([0, length]);
+				return d3.scaleBand().domain(arr).range(coords);
 			}
 		}
 
 		const margin = { top: 50, right: 50, bottom: 50, left: 70 };
-		let width = window.innerWidth * 0.75 - margin.left - margin.right;
-		let height = window.innerWidth * 0.3 - margin.top - margin.bottom;
+		let minWidth = window.innerWidth * 0.75 >= 400 ? window.innerWidth * 0.75 : 400;
+		let width = minWidth - margin.left - margin.right;
+		let minHeight = window.innerWidth * 0.3 >= 400 ? window.innerWidth * 0.3 : 400;
+		let height = minHeight - margin.top - margin.bottom;
 
 		let scatterOuter = d3
 			.select('#scatter')
@@ -78,10 +80,10 @@
 
 		let scatterInner = scatterOuter.append('g');
 
-		let x = limitAxis(populateArray(xAxis), width);
+		let x = limitAxis(populateArray(xAxis), [0, width]);
 
 		scatterInner.append('g').attr('transform', `translate(0, ${height})`).call(d3.axisBottom(x));
-		let y = limitAxis(populateArray(yAxis), height);
+		let y = limitAxis(populateArray(yAxis), [height, 0]);
 		scatterInner.append('g').call(d3.axisLeft(y));
 
 		scatterInner
