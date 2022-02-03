@@ -5,7 +5,7 @@
 <div class="sticky-header">
 	<div class="header-banner">
 		<div class="padder" />
-		<div class="darkmode">
+		<div class="darkmode pointer">
 			<DarkmodeToggle />
 		</div>
 	</div>
