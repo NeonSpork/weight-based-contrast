@@ -3,7 +3,7 @@
 	"version": "0.0.1",
 	"scripts": {
 		"dev": "svelte-kit dev",
-		"test": "mocha --config configs/.mocharc.json",
+		"test": "mocha --config configs/.mocharc.json -r ts-node/register '**/*.test.ts'",
 		"test:coverage": "./node_modules/c8/bin/c8.js -c configs/.c8rc npm test",
 		"test:debug": "cross-env DEBUG=* npm test",
 		"test:watch": "npm test -- --watch",
@@ -20,7 +20,9 @@
 		"@sveltejs/adapter-auto": "next",
 		"@sveltejs/adapter-vercel": "^1.0.0-next.39",
 		"@sveltejs/kit": "next",
+		"@testing-library/svelte": "^3.0.3",
 		"@types/js-cookie": "^3.0.1",
+		"@types/mocha": "^9.1.0",
 		"@types/sass": "^1.43.1",
 		"@typescript-eslint/eslint-plugin": "^5.10.1",
 		"@typescript-eslint/parser": "^5.10.1",
