@@ -3,6 +3,8 @@
 	import type { PatientType } from '$lib/types/Patient';
 	import { onMount } from 'svelte';
 
+	export let url = '';
+
 	let labels = [
 		'age',
 		'aorta',
@@ -152,9 +154,7 @@
 	}
 
 	onMount(async () => {
-		const data: Array<PatientType> = await d3.csv(
-			'https://raw.githubusercontent.com/NeonSpork/weight-based-contrast/main/src/assets/wbcm.csv'
-		);
+		const data: Array<PatientType> = await d3.csv(url);
 		total = data.length;
 		await scatterPlot(data);
 		window.addEventListener('resize', async () => {
@@ -169,11 +169,7 @@
 		bind:value={yAxis}
 		on:change={async () => {
 			d3.selectAll('svg').remove();
-			scatterPlot(
-				await d3.csv(
-					'https://raw.githubusercontent.com/NeonSpork/weight-based-contrast/main/src/assets/wbcm.csv'
-				)
-			);
+			scatterPlot(await d3.csv(url));
 		}}
 	>
 		{#each labels as label}
@@ -184,11 +180,7 @@
 		bind:value={xAxis}
 		on:change={async () => {
 			d3.selectAll('svg').remove();
-			scatterPlot(
-				await d3.csv(
-					'https://raw.githubusercontent.com/NeonSpork/weight-based-contrast/main/src/assets/wbcm.csv'
-				)
-			);
+			scatterPlot(await d3.csv(url));
 		}}
 	>
 		{#each labels as label}
