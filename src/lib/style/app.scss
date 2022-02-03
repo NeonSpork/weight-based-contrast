@@ -40,7 +40,7 @@ h6 {
 	}
 }
 
-.menu_icon {
+.menu-icon {
 	@include themify($themes) {
 		color: themed('primaryAccentColor');
 		// transform: rotateY(themed('iconSkew'));

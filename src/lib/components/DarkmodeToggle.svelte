@@ -23,7 +23,7 @@
 	onMount(applyTheme);
 </script>
 
-<div class="menu_icon" on:click={() => toggleTheme()}>
+<div data-testid="darkmode-toggle" class="menu-icon" on:click={() => toggleTheme()}>
 	{#if $theme === 'dark'}
 		<div transition:slide>
 			<div transition:blur>
@@ -40,7 +40,7 @@
 </div>
 
 <style lang="scss">
-	.menu_icon {
+	.menu-icon {
 		// margin: 8px 4px 8px;
 		width: 16px;
 		height: 16px;
