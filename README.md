@@ -1,40 +1,13 @@
-# create-svelte
+# Weight based contrast
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
+A simple widget to show some anonymized data in a scatterplot.
 
-## Creating a project
+## Requirements to develop
 
-If you're seeing this, you've probably already done this step. Congrats!
+[node](https://nodejs.org/en/) and a package manager like [npm](https://www.npmjs.com) (included with `node`) are necessary, as is a browser of your choice.
 
-```bash
-# create a new project in the current directory
-npm init svelte@next
+## Run a development server locally
 
-# create a new project in my-app
-npm init svelte@next my-app
-```
-
-> Note: the `@next` is temporary
-
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```bash
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
-
-## Building
-
-To create a production version of your app:
-
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs#adapters) for your target environment.
+First install all the necessary packages.  
+Navigate to the correct folder `cd /where/you/cloned/this/weight-base-contrast` and run `npm install` (or `npm i` if you're lazy).  
+Run the command `npm run dev` and open your browser to (http://localhost:3000)[http://localhost:3000].

@@ -62,7 +62,7 @@
 				const max = d3.max(arr) * 1.1;
 				return d3.scaleLinear().domain([min, max]).range(coords);
 			} else {
-				return d3.scaleBand().domain(arr).range(coords);
+				return d3.scaleBand().domain(arr).range(coords).padding(1.0);
 			}
 		}
 
