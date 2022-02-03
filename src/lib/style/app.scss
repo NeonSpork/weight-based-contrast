@@ -169,3 +169,20 @@ textarea:focus {
 		border: solid 0.125rem themed('secondaryAccentColor');
 	}
 }
+
+a:link,
+a:visited {
+	@include themify($themes) {
+		color: themed('primaryAccentColor');
+		transition: color 200ms $bouncy-cubic;
+	}
+	text-decoration: none;
+}
+
+a:hover {
+	@include themify($themes) {
+		color: themed('secondaryAccentColor');
+		transition: color 200ms $bouncy-cubic;
+	}
+	text-decoration: none;
+}
